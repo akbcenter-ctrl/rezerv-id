@@ -1,0 +1,9 @@
+{
+  "name": "Резерв ID",
+  "short_name": "Резерв",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#d6d2bf",
+  "theme_color": "#6b5a2b",
+  "orientation": "portrait"
+}

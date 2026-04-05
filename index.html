@@ -2,8 +2,8 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Повідомлення · Резерв ID</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Резерв+ · Мій обліковий запис</title>
     <style>
         * {
             margin: 0;
@@ -12,246 +12,389 @@
         }
 
         body {
-            background: #0f1724;
+            background: #f2f4f8;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            padding: 16px;
         }
 
-        /* Точне відтворення картки повідомлення як на скріншоті Telegram */
-        .message-card {
-            max-width: 400px;
+        /* Основний контейнер — як екран застосунку */
+        .app-container {
             width: 100%;
+            max-width: 430px;
             background-color: #ffffff;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
         }
 
-        /* Заголовок Сповіщення */
-        .notification-header {
-            padding: 18px 20px 8px 20px;
-            border-bottom: 1px solid #eef2f5;
-        }
-        .notification-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #000000;
-            letter-spacing: -0.3px;
-        }
-
-        /* Блок Резерв ID */
-        .reserve-section {
-            padding: 16px 20px 12px 20px;
-            border-bottom: 1px solid #eef2f5;
-        }
-        .reserve-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #8e8e93;
-            margin-bottom: 6px;
-            letter-spacing: -0.2px;
-        }
-        .reserve-id-number {
-            font-size: 22px;
-            font-weight: 600;
-            color: #000000;
-            font-family: monospace;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-        .birth-defer-row {
+        /* Статус бар (імітація) */
+        .status-bar {
+            padding: 12px 20px 6px 20px;
+            background: #ffffff;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            margin-top: 8px;
+            font-size: 15px;
+            font-weight: 590;
+            color: #1c1c1e;
+            border-bottom: 0.5px solid #e9ecef;
         }
-        .birth-item, .defer-item {
+
+        /* Хедер застосунку */
+        .app-header {
+            padding: 12px 20px;
+            background: #ffffff;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            border-bottom: 0.5px solid #e9ecef;
+        }
+        .logo-area {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+        .app-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0057b3;
+        }
+        .app-badge {
+            background: #eef2f9;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #0057b3;
+        }
+        .header-icons {
+            display: flex;
+            gap: 16px;
+            color: #007aff;
+            font-size: 20px;
+        }
+
+        /* Основний контент */
+        .main-content {
+            padding: 16px 20px 20px 20px;
+        }
+
+        /* Секція сповіщення (точна копія) */
+        .notification-card {
+            background: #f8f9fc;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #eef2f9;
+        }
+        .notification-title {
+            font-size: 17px;
+            font-weight: 620;
+            color: #000000;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .reserve-id-block {
+            margin-bottom: 16px;
+        }
+        .reserve-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6c7a8e;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 4px;
+        }
+        .reserve-number {
+            font-size: 22px;
+            font-weight: 650;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            color: #001f3f;
+            letter-spacing: 0.5px;
+        }
+        .info-two-columns {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 14px;
+            gap: 12px;
+        }
+        .info-col {
             flex: 1;
         }
-        .birth-label, .defer-label {
+        .info-col .label {
             font-size: 11px;
             font-weight: 500;
-            color: #8e8e93;
+            color: #7c8ba0;
             text-transform: uppercase;
             margin-bottom: 4px;
         }
-        .birth-value {
+        .info-col .value {
             font-size: 15px;
             font-weight: 500;
-            color: #000000;
+            color: #1c2e42;
         }
-        .defer-value {
-            font-size: 14px;
-            font-weight: 500;
-            color: #1c6b3c;
-            background-color: #e8f5ed;
+        .defer-chip {
+            background: #e6f4ea;
+            padding: 4px 12px;
+            border-radius: 20px;
             display: inline-block;
-            padding: 3px 12px;
-            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1e6f3f;
         }
-
-        /* Рядок документа */
-        .document-row {
-            padding: 14px 20px;
-            border-bottom: 1px solid #eef2f5;
+        .doc-line {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 12px 12px;
+            margin: 12px 0 8px 0;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 8px;
-        }
-        .doc-left {
-            display: flex;
-            align-items: baseline;
-            gap: 12px;
-            flex-wrap: wrap;
+            border: 0.5px solid #eef2f5;
         }
         .doc-id {
+            font-weight: 540;
             font-size: 14px;
-            font-weight: 500;
-            color: #000000;
+            color: #1e2f3e;
             font-family: monospace;
         }
-        .doc-update {
+        .doc-time {
             font-size: 12px;
-            color: #8e8e93;
+            color: #8e9aae;
         }
-        .detail-link {
+        .doc-detail {
+            color: #007aff;
             font-size: 14px;
             font-weight: 500;
-            color: #007aff;
             text-decoration: none;
             background: none;
             border: none;
             cursor: pointer;
         }
-        .detail-link:hover {
-            text-decoration: underline;
-        }
 
-        /* Блок Військовозобов'язаний */
-        .military-block {
-            padding: 16px 20px 14px 20px;
-            border-bottom: 1px solid #eef2f5;
+        /* блок військовозобов'язаний */
+        .military-person-block {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 16px;
+            margin: 16px 0 12px 0;
+            border: 1px solid #eef2f9;
         }
-        .military-status {
-            font-size: 13px;
-            font-weight: 500;
-            color: #8e8e93;
-            margin-bottom: 10px;
-        }
-        .full-name {
-            font-size: 18px;
+        .status-tag {
+            font-size: 12px;
             font-weight: 600;
-            color: #000000;
-            line-height: 1.3;
+            color: #b55a1c;
+            background: #fff0e4;
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
             margin-bottom: 12px;
         }
-        .additional-info {
-            font-size: 12px;
-            color: #8e8e93;
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid #eef2f5;
+        .pib-name {
+            font-size: 20px;
+            font-weight: 670;
+            color: #001f3f;
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+        .extra-meta {
             display: flex;
-            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            border-top: 0.5px solid #edf2f7;
+            padding-top: 12px;
+            font-size: 12px;
+            color: #6f7e97;
         }
 
-        /* Футер */
-        .footer {
-            padding: 12px 20px 16px 20px;
-            background-color: #f9f9fb;
-            font-size: 11px;
-            color: #8e8e93;
+        /* Електронний військовий квиток */
+        .e-ticket-row {
+            background: #fafcff;
+            border-radius: 18px;
+            padding: 14px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin: 12px 0 20px 0;
+            border: 1px solid #eef2f8;
         }
-        .footer-link {
-            color: #007aff;
-            text-decoration: none;
+        .ticket-left {
             font-weight: 500;
+            font-size: 14px;
+            color: #1f4870;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .ticket-right {
+            background: #eef3fc;
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #0057b3;
         }
 
-        /* Додаткові деталі для точності */
-        .mono-placeholder {
-            font-family: monospace;
+        /* Футер навігації (як у застосунку) */
+        .bottom-nav {
+            background: #ffffff;
+            border-top: 0.5px solid #e9ecef;
+            padding: 10px 24px 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            position: sticky;
+            bottom: 0;
+            width: 100%;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            color: #8e9aaf;
+        }
+        .nav-item.active {
+            color: #007aff;
+            font-weight: 500;
+        }
+        .nav-icon {
+            font-size: 22px;
+        }
+
+        /* додаткові дрібниці */
+        .bullet-dots {
             letter-spacing: 1px;
         }
-        hr {
-            display: none;
+        button {
+            background: none;
+            border: none;
+        }
+        .footer-copyright {
+            background: #f8fafd;
+            padding: 12px 20px;
+            font-size: 10px;
+            color: #8e9aae;
+            text-align: center;
+            border-top: 0.5px solid #edf2f7;
         }
     </style>
 </head>
 <body>
-<div class="message-card">
-    <!-- Заголовок: Сповіщення -->
-    <div class="notification-header">
-        <div class="notification-title">Сповіщення</div>
+<div class="app-container">
+    <!-- Статус бар -->
+    <div class="status-bar">
+        <span>9:41</span>
+        <span>📶 🔋 100%</span>
     </div>
 
-    <!-- Резерв ID -->
-    <div class="reserve-section">
-        <div class="reserve-label">Резерв ID</div>
-        <div class="reserve-id-number">026 • 8452-2303</div>
-        <div class="birth-defer-row">
-            <div class="birth-item">
-                <div class="birth-label">Дата народження</div>
-                <div class="birth-value">23.03.1984</div>
+    <!-- Хедер Резерв+ -->
+    <div class="app-header">
+        <div class="logo-area">
+            <span class="app-logo">Резерв+</span>
+            <span class="app-badge">Офіційно</span>
+        </div>
+        <div class="header-icons">
+            <span>🔍</span>
+            <span>👤</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- ТОЧНА КОПІЯ СПОВІЩЕННЯ (як на скріншоті Telegram) -->
+        <div class="notification-card">
+            <div class="notification-title">
+                <span>🔔</span> Сповіщення
             </div>
-            <div class="defer-item">
-                <div class="defer-label">Відстрочка до</div>
-                <div class="defer-value">завершення мобілізації</div>
+            <div class="reserve-id-block">
+                <div class="reserve-label">Резерв ID</div>
+                <div class="reserve-number">026 • 8452-2303</div>
+                <div class="info-two-columns">
+                    <div class="info-col">
+                        <div class="label">Дата народження</div>
+                        <div class="value">23.03.1984</div>
+                    </div>
+                    <div class="info-col">
+                        <div class="label">Відстрочка до</div>
+                        <div class="defer-chip">завершення мобілізації</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Документ оновлено -->
+            <div class="doc-line">
+                <div>
+                    <span class="doc-id">026 • Документ</span>
+                    <span class="doc-time"> оновлено о 04:16 | 18.02.2026</span>
+                </div>
+                <button class="doc-detail" id="detailBtnMobile">Докладніше ...</button>
             </div>
         </div>
-    </div>
 
-    <!-- Документ оновлено + Докладніше -->
-    <div class="document-row">
-        <div class="doc-left">
-            <span class="doc-id">026 • Документ</span>
-            <span class="doc-update">оновлено о 04:16 | 18.02.2026</span>
+        <!-- Блок Військовозобов'язаний -->
+        <div class="military-person-block">
+            <div class="status-tag">Військовозобов'язаний</div>
+            <div class="pib-name">ЛУКАШЕНКО ВІТАЛІЙ Миколайович</div>
+            <div class="extra-meta">
+                <span>РНОКПП: ●●●● ●●●● ●●</span>
+                <span>Категорія обліку: резерв+</span>
+            </div>
         </div>
-        <button class="detail-link" id="detailsButton">Докладніше ...</button>
-    </div>
 
-    <!-- Військовозобов'язаний + ПІБ -->
-    <div class="military-block">
-        <div class="military-status">Військовозобов'язаний</div>
-        <div class="full-name">ЛУКАШЕНКО ВІТАЛІЙ Миколайович</div>
-        <div class="additional-info">
-            <span>РНОКПП: ●●●● ●●●● ●●</span>
-            <span>Категорія обліку: резерв+</span>
+        <!-- Електронний військовий квиток -->
+        <div class="e-ticket-row">
+            <div class="ticket-left">
+                <span>🪪</span> Електронний військовий квиток
+            </div>
+            <div class="ticket-right">
+                Захищено Дія
+            </div>
+        </div>
+
+        <!-- Додатковий рядок — як натяк на повну копію -->
+        <div style="font-size: 11px; color: #6c819e; background: #fefefe; border-radius: 14px; padding: 8px 14px; margin: 8px 0 4px; border: 0.5px solid #eef2f5;">
+            ✅ Останнє оновлення даних: 18.02.2026 · Джерело: Оберіг
         </div>
     </div>
 
-    <!-- Футер -->
-    <div class="footer">
-        <span>© Резерв+ · Дані з Єдиного реєстру</span>
-        <a href="#" class="footer-link" id="verifyStatus">Перевірити статус</a>
+    <!-- Нижня навігація як у застосунку -->
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <span>Головна</span>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">📄</div>
+            <span>Документи</span>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🔔</div>
+            <span>Сповіщення</span>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">👤</div>
+            <span>Профіль</span>
+        </div>
+    </div>
+
+    <div class="footer-copyright">
+        © Резерв+ · Дані з Єдиного реєстру · Версія 2.4.0
     </div>
 </div>
 
 <script>
-    // Інтерактив для точної поведінки — при натисканні "Докладніше ..." та "Перевірити статус"
-    const detailsBtn = document.getElementById('detailsButton');
-    const verifyBtn = document.getElementById('verifyStatus');
-    
-    if (detailsBtn) {
-        detailsBtn.addEventListener('click', function(e) {
+    // Точне відтворення дії "Докладніше" зі скріншоту
+    const detailButton = document.getElementById('detailBtnMobile');
+    if (detailButton) {
+        detailButton.addEventListener('click', function(e) {
             e.preventDefault();
-            alert("Докладніше:\n\nРезерв ID: 026\nДата народження: 23.03.1984\nВідстрочка до: завершення мобілізації\nДокумент оновлено: 18.02.2026 о 04:16\nСтатус: військовозобов'язаний");
-        });
-    }
-    
-    if (verifyBtn) {
-        verifyBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert("Статус перевірки:\nВійськовозобов'язаний\nДані актуальні станом на 18.02.2026");
+            alert("📌 Докладніше\n\nРезерв ID: 026\nДата народження: 23.03.1984\nВідстрочка: до завершення мобілізації\nОновлення документа: 18.02.2026 о 04:16\nСтатус: Військовозобов'язаний\n\nДані синхронізовано з реєстром «Оберіг».");
         });
     }
 </script>

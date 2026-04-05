@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Резерв ID</title>
 
 <meta name="theme-color" content="#d9d3bd">
@@ -64,7 +63,7 @@ html, body {
     height:22px;
 }
 
-/* блок */
+/* контент */
 .row {
     display:flex;
     gap:10px;
@@ -111,6 +110,7 @@ html, body {
 .name-section {
     margin-top:auto;
     padding:12px 14px 30px;
+    position:relative;
 }
 
 .status {
@@ -175,6 +175,7 @@ html, body {
 
     <div class="name-section">
         <div class="status">Військовозобов'язаний</div>
+
         <div class="name">
             ЛУКАШЕНКО ВІТАЛІЙ<br>
             МИКОЛАЙОВИЧ
@@ -184,15 +185,6 @@ html, body {
     </div>
 
 </div>
-
-<!-- PWA без manifest -->
-<script>
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-        self.addEventListener('fetch', e => {});
-    `], {type:'text/javascript'})));
-}
-</script>
 
 </body>
 </html>

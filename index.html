@@ -22,29 +22,30 @@ body {
 .statusbar {
     display:flex;
     justify-content:space-between;
-    padding:6px 12px;
-    font-size:14px;
+    padding:4px 10px;
+    font-size:13px;
 }
 
 /* верх */
 .topbar {
     display:flex;
     justify-content:space-between;
-    padding:10px 16px;
+    padding:8px 14px 4px;
     font-size:18px;
 }
 
 .notify {
     background:#ececec;
-    padding:6px 16px;
-    border-radius:22px;
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:14px;
 }
 
 /* карточка */
 .card {
-    margin:12px;
-    background:#e7e1cb;
-    border-radius:18px;
+    margin:8px 10px;
+    background:#e6e0c9;
+    border-radius:20px;
     border:1px solid rgba(0,0,0,0.25);
     overflow:hidden;
 }
@@ -54,44 +55,47 @@ body {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:16px;
-    font-size:22px;
+    padding:14px 14px 8px;
+    font-size:20px;
     font-weight:500;
 }
 
 /* герб */
 .crest {
-    width:26px;
-    height:26px;
+    width:22px;
+    height:22px;
+    margin-top:2px;
 }
 
 /* контент */
 .row {
     display:flex;
-    gap:16px;
-    padding:0 16px 16px;
+    gap:10px;
+    padding:0 14px 10px;
 }
 
+/* фото */
 .photo {
-    width:120px;
-    height:150px;
-    border-radius:12px;
-    object-fit:cover;
-    background:#ccc;
+    width:96px;
+    height:120px;
+    border-radius:10px;
+    background:#cfcfcf;
 }
 
+/* текст */
 .info {
-    font-size:15px;
-    line-height:1.4;
+    font-size:14px;
+    line-height:1.3;
 }
 
 .info b {
-    font-size:18px;
+    font-size:16px;
+    font-weight:700;
 }
 
-/* бегущая строка */
+/* полоса */
 .marquee {
-    background:#6a5a2a;
+    background:#6b5a2b;
     color:#fff;
     overflow:hidden;
     white-space:nowrap;
@@ -99,9 +103,10 @@ body {
 
 .marquee span {
     display:inline-block;
+    padding:6px 0;
     padding-left:100%;
-    animation:scroll 12s linear infinite;
-    padding:10px 0;
+    font-size:13px;
+    animation:scroll 13s linear infinite;
 }
 
 @keyframes scroll {
@@ -109,40 +114,42 @@ body {
     100% {transform:translateX(-100%);}
 }
 
-/* имя */
+/* низ */
 .name-section {
     position:relative;
-    padding:16px;
+    padding:12px 14px 16px;
 }
 
 .status {
-    color:#666;
-    font-size:14px;
-    margin-bottom:8px;
+    font-size:13px;
+    color:#6c6c6c;
+    margin-bottom:6px;
 }
 
 .name {
-    font-size:22px;
+    font-size:21px;
     font-weight:700;
+    line-height:1.15;
+    letter-spacing:0.3px;
 }
 
 /* кнопка */
 .fab {
     position:absolute;
-    right:16px;
-    bottom:16px;
-    width:58px;
-    height:58px;
+    right:14px;
+    bottom:14px;
+    width:54px;
+    height:54px;
     background:#ff8a00;
     border-radius:50%;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:30px;
+    font-size:28px;
     color:#fff;
 }
 
-/* низ */
+/* низ меню */
 .bottom {
     position:fixed;
     bottom:0;
@@ -150,7 +157,7 @@ body {
     background:#efefef;
     display:flex;
     justify-content:space-around;
-    padding:12px 0;
+    padding:10px 0 8px;
     font-size:13px;
 }
 </style>
@@ -158,7 +165,6 @@ body {
 
 <body>
 
-<!-- статус -->
 <div class="statusbar">
     <div>21:28</div>
     <div>📶 📶 📶 🔋80%</div>
@@ -175,8 +181,11 @@ body {
         <div>Резерв ID</div>
 
         <!-- герб -->
-        <svg class="crest" viewBox="0 0 24 24" fill="black">
-            <path d="M12 2L4 5v6c0 5 3.8 9.7 8 11 4.2-1.3 8-6 8-11V5l-8-3z"/>
+        <svg class="crest" viewBox="0 0 24 24">
+          <path fill="#000" d="M12 2L5 5v6c0 4.8 3.4 9.1 7 10 3.6-0.9 7-5.2 7-10V5l-7-3z"/>
+          <path fill="#fff" d="M12 6c-1.5 0-2.5 1.2-2.5 2.8V17h1.8V9.2c0-.6.3-1 .7-1s.7.4.7 1V17h1.8V8.8C14.5 7.2 13.5 6 12 6z"/>
+          <path fill="#fff" d="M9 7.5c-1.2 0-2 1-2 2.4V17h1.6V10c0-.5.2-.8.4-.8s.4.3.4.8V17H11V9.9c0-1.4-.8-2.4-2-2.4z"/>
+          <path fill="#fff" d="M15 7.5c-1.2 0-2 1-2 2.4V17h1.6V10c0-.5.2-.8.4-.8s.4.3.4.8V17H17V9.9c0-1.4-.8-2.4-2-2.4z"/>
         </svg>
     </div>
 
@@ -215,21 +224,6 @@ body {
     <div>Вакансії</div>
     <div>Меню</div>
 </div>
-
-<script>
-/* встроенный service worker */
-if ('serviceWorker' in navigator) {
-    const swCode = `
-        self.addEventListener('install', e => {
-            self.skipWaiting();
-        });
-        self.addEventListener('fetch', e => {});
-    `;
-    const blob = new Blob([swCode], { type: 'text/javascript' });
-    const swUrl = URL.createObjectURL(blob);
-    navigator.serviceWorker.register(swUrl);
-}
-</script>
 
 </body>
 </html>

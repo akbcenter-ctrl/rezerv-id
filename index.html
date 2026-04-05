@@ -2,14 +2,25 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
 <title>Резерв ID</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#d6d2bf">
+
+<!-- убирает UI браузера -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial}
 
-body{
+html,body{
+    height:100%;
     background:#d6d2bf;
+    overflow:hidden;
 }
 
 /* верх */
@@ -17,18 +28,14 @@ body{
     padding:20px;
     display:flex;
     justify-content:space-between;
-    align-items:center;
 }
 
-.time{
-    font-size:20px;
-}
+.time{font-size:20px;}
 
 .notify{
     background:#ecebe7;
     padding:10px 16px;
     border-radius:24px;
-    font-size:16px;
 }
 
 /* карточка */
@@ -56,10 +63,7 @@ body{
 }
 
 /* герб */
-.coat{
-    width:28px;
-    height:28px;
-}
+.coat{width:28px;height:28px;}
 
 /* контент */
 .content{
@@ -75,25 +79,17 @@ body{
     border-radius:14px;
 }
 
-.info{
-    font-size:16px;
-}
+.info{font-size:16px;}
+.info b{display:block;font-size:20px;margin:4px 0 12px;}
 
-.info b{
-    display:block;
-    font-size:20px;
-    margin:4px 0 12px;
-}
-
-/* полоса */
+/* бегущая строка */
 .bar{
     margin-top:16px;
     background:#7b6a33;
     color:#fff;
     padding:8px 14px;
-    font-size:14px;
-    white-space:nowrap;
     overflow:hidden;
+    white-space:nowrap;
 }
 
 .bar span{
@@ -108,9 +104,7 @@ body{
 }
 
 /* растяжка */
-.spacer{
-    flex:1;
-}
+.spacer{flex:1;}
 
 /* низ */
 .bottom{
@@ -118,11 +112,7 @@ body{
     position:relative;
 }
 
-.small{
-    color:#777;
-    font-size:14px;
-    margin-bottom:6px;
-}
+.small{color:#777;font-size:14px;margin-bottom:6px;}
 
 .name{
     font-size:26px;
@@ -157,7 +147,6 @@ body{
     display:flex;
     justify-content:space-around;
     padding:10px 0;
-    font-size:14px;
 }
 </style>
 </head>
@@ -174,12 +163,11 @@ body{
     <div class="header">
         <div>Резерв ID</div>
 
-        <!-- ОРИГИНАЛЬНЫЙ ГЕРБ SVG -->
+        <!-- герб -->
         <svg class="coat" viewBox="0 0 512 512">
             <path fill="#000" d="M256 0C167 73 64 96 64 96v128c0 121 82 233 192 288 110-55 192-167 192-288V96s-103-23-192-96z"/>
             <path fill="#fff" d="M256 120l-60 60h40v120h40V180h40z"/>
         </svg>
-
     </div>
 
     <div class="content">
@@ -202,6 +190,7 @@ body{
 
     <div class="bottom">
         <div class="small">Військовозобов'язаний</div>
+
         <div class="name">
             ЛУКАШЕНКО ВІТАЛІЙ<br>
             МИКОЛАЙОВИЧ
@@ -218,6 +207,13 @@ body{
     <div>Вакансії</div>
     <div>Меню</div>
 </div>
+
+<!-- Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
+}
+</script>
 
 </body>
 </html>

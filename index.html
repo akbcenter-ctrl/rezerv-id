@@ -2,8 +2,8 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Резерв ID · Лукашенко Віталій</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Повідомлення · Резерв ID · Біжуча стрічка</title>
     <style>
         * {
             margin: 0;
@@ -12,279 +12,187 @@
         }
 
         body {
-            background: #eef2f5;
+            background: #0a0e17;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             padding: 16px;
         }
 
-        /* Точна копія картки — як на скріншоті */
-        .card {
-            max-width: 420px;
+        /* Контейнер із біжучою стрічкою */
+        .ticker-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: #ffffff;
-            border-radius: 20px;
+            background: #000000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 8px 0;
             overflow: hidden;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            white-space: nowrap;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            border-bottom: 2px solid #0f0;
         }
 
-        .content {
-            padding: 24px 22px 28px 22px;
+        .ticker-text {
+            display: inline-block;
+            padding-left: 100%;
+            animation: ticker 20s linear infinite;
         }
 
-        /* РЕЗЕРВ ID */
+        @keyframes ticker {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Стиль повідомлення (як у Telegram) */
+        .message {
+            max-width: 380px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 18px 20px 20px 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+
+        /* Сповіщення */
+        .notification-title {
+            font-size: 19px;
+            font-weight: 620;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        /* Резерв ID */
         .reserve-label {
             font-size: 12px;
             font-weight: 500;
-            color: #6c7a8e;
-            letter-spacing: 0.3px;
-            margin-bottom: 6px;
-        }
-        .reserve-number {
-            font-size: 26px;
-            font-weight: 650;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            color: #001f3f;
-            letter-spacing: 0.5px;
-            margin-bottom: 20px;
-        }
-
-        /* Рядки ДАТА НАРОДЖЕННЯ та ВІДСТРОЧКА ДО */
-        .info-block {
-            margin-bottom: 20px;
-        }
-        .info-row {
-            margin-bottom: 16px;
-        }
-        .info-label {
-            font-size: 11px;
-            font-weight: 500;
-            color: #7c8ba0;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+            color: #8e8e93;
             margin-bottom: 4px;
         }
-        .info-value {
-            font-size: 16px;
-            font-weight: 500;
-            color: #1c2e42;
-        }
-        .defer-value {
-            background: #e6f4ea;
-            padding: 4px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            font-size: 15px;
-            font-weight: 500;
-            color: #1e6f3f;
+        .reserve-number {
+            font-size: 20px;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 16px;
         }
 
-        /* Документ + оновлено */
-        .doc-line {
-            margin: 24px 0 20px 0;
-            border-top: 1px solid #eef2f5;
-            padding-top: 18px;
-        }
-        .doc-text {
+        /* Дата народження та Відстрочка */
+        .info-line {
             font-size: 14px;
-            color: #1e2f3e;
-            line-height: 1.45;
+            color: #000000;
+            margin-bottom: 8px;
         }
-        .doc-id {
-            font-weight: 540;
-            font-family: monospace;
+        .info-line strong {
+            font-weight: 500;
+            color: #8e8e93;
         }
-        .doc-time {
-            color: #8e9aae;
+
+        /* Документ оновлено */
+        .doc-line {
+            font-size: 14px;
+            color: #000000;
+            margin: 20px 0 16px 0;
+        }
+        .doc-line span {
+            color: #8e8e93;
         }
         .detail-link {
             color: #007aff;
-            font-size: 14px;
-            font-weight: 500;
             text-decoration: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-top: 6px;
-            display: inline-block;
+            font-size: 14px;
         }
 
         /* Військовозобов'язаний */
-        .status-badge {
-            font-size: 13px;
-            font-weight: 500;
-            color: #b55a1c;
-            margin: 20px 0 8px 0;
-        }
-        .full-name {
-            font-size: 22px;
-            font-weight: 700;
-            color: #001f3f;
-            line-height: 1.25;
-            margin-bottom: 16px;
-        }
-        .meta-line {
-            font-size: 13px;
-            color: #6f7e97;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            border-top: 1px solid #eef2f5;
-            padding-top: 16px;
-            margin-top: 4px;
-        }
-
-        /* Електронний військовий квиток */
-        .eticket-block {
-            background: #fafcff;
-            border-radius: 16px;
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 24px 0 20px 0;
-            border: 1px solid #eef2f8;
-        }
-        .eticket-left {
-            font-weight: 500;
+        .status {
             font-size: 14px;
-            color: #1f4870;
+            color: #000000;
+            margin-bottom: 6px;
         }
-        .eticket-right {
-            background: #eef3fc;
-            padding: 5px 12px;
-            border-radius: 30px;
-            font-size: 12px;
+        .name {
+            font-size: 17px;
             font-weight: 600;
-            color: #0057b3;
+            color: #000000;
+            line-height: 1.3;
         }
 
-        /* Оновлення даних */
-        .update-note {
-            font-size: 11px;
-            color: #6c819e;
-            background: #fefefe;
-            padding: 10px 0;
-            border-top: 1px solid #eef2f5;
-            margin-top: 8px;
+        /* Роздільник */
+        .separator {
+            height: 1px;
+            background: #e9ecef;
+            margin: 16px 0;
         }
 
-        /* Навігація */
-        .bottom-nav {
-            background: #ffffff;
-            border-top: 0.5px solid #e9ecef;
-            padding: 12px 22px 16px 22px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .nav-item {
-            font-size: 12px;
-            color: #8e9aaf;
-            text-align: center;
-        }
-        .nav-item.active {
-            color: #007aff;
-            font-weight: 500;
-        }
-
-        /* Футер */
-        .footer {
-            background: #f8fafd;
-            padding: 12px 22px 16px 22px;
-            font-size: 10px;
-            color: #8e9aae;
-            text-align: center;
-            border-top: 0.5px solid #edf2f7;
-        }
-
-        hr {
-            display: none;
-        }
-        button {
-            background: none;
-            border: none;
-        }
-        .separator-dash {
-            margin: 0 4px;
+        /* Додатковий відступ для тіла через фіксовану стрічку */
+        body {
+            padding-top: 60px;
         }
     </style>
 </head>
 <body>
-<div class="card">
-    <div class="content">
-        <!-- РЕЗЕРВ ID -->
-        <div class="reserve-label">РЕЗЕРВ ID</div>
-        <div class="reserve-number">026 • 8452-2303</div>
 
-        <!-- ДАТА НАРОДЖЕННЯ -->
-        <div class="info-block">
-            <div class="info-row">
-                <div class="info-label">ДАТА НАРОДЖЕННЯ</div>
-                <div class="info-value">23.03.1984</div>
-            </div>
-            <!-- ВІДСТРОЧКА ДО -->
-            <div class="info-row">
-                <div class="info-label">ВІДСТРОЧКА ДО</div>
-                <div class="defer-value">завершення мобілізації</div>
-            </div>
-        </div>
-
-        <!-- 026 • Документ оновлено о 04:16 | 18.02.2026 -->
-        <div class="doc-line">
-            <div class="doc-text">
-                <span class="doc-id">026 • Документ</span> оновлено о 04:16 | <br>
-                18.02.2026
-            </div>
-            <button class="detail-link" id="detailsButton">Докладніше ...</button>
-        </div>
-
-        <!-- Військовозобов'язаний -->
-        <div class="status-badge">Військовозобов'язаний</div>
-
-        <!-- ПІБ -->
-        <div class="full-name">ЛУКАШЕНКО ВІТАЛІЙ Миколайович</div>
-
-        <!-- РНОКПП + Категорія обліку -->
-        <div class="meta-line">
-            <span>РНОКПП: ●●●● ●●●● ●●</span>
-            <span>Категорія обліку: резерв+</span>
-        </div>
-
-        <!-- Електронний військовий квиток / Захищено Дія -->
-        <div class="eticket-block">
-            <div class="eticket-left">Електронний військовий квиток</div>
-            <div class="eticket-right">Захищено Дія</div>
-        </div>
-
-        <!-- Останнє оновлення даних -->
-        <div class="update-note">
-            ✅ Останнє оновлення даних: 18.02.2026 · Джерело: Оберіг
-        </div>
-    </div>
-
-    <!-- Навігація -->
-    <div class="bottom-nav">
-        <div class="nav-item active">Головна</div>
-        <div class="nav-item">Документи</div>
-        <div class="nav-item">Сповіщення</div>
-        <div class="nav-item">Профіль</div>
-    </div>
-
-    <!-- Футер -->
-    <div class="footer">
-        © Резерв + Дані з Єдиного реєстру · Версія 2.4.0
+<!-- БІЖУЧА СТРІЧКА -->
+<div class="ticker-container">
+    <div class="ticker-text">
+        ⚠️ УВАГА! РЕЗЕРВ ID АКТИВОВАНО • ДАНІ ОНОВЛЕНО 18.02.2026 • ВІДСТРОЧКА ДО ЗАВЕРШЕННЯ МОБІЛІЗАЦІЇ • ПЕРЕВІРТЕ СТАТУС У ЗАСТОСУНКУ РЕЗЕРВ+ ⚠️ &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        🔔 СПОВІЩЕННЯ ВІД ТЦК • ЛУКАШЕНКО ВІТАЛІЙ • ВІЙСЬКОВОЗОБОВ'ЯЗАНИЙ 🔔 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        📄 ДОКУМЕНТ 026 • ОНОВЛЕНО О 04:16 • 18.02.2026 📄 &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+        ⚡ РЕЗЕРВ ID 026 • 8452-2303 ⚡ &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
     </div>
 </div>
 
+<!-- ОСНОВНЕ ПОВІДОМЛЕННЯ (точне копіювання скріншоту) -->
+<div class="message">
+    <!-- Сповіщення -->
+    <div class="notification-title">Сповіщення</div>
+
+    <!-- Резерв ID -->
+    <div class="reserve-label">Резерв ID</div>
+    <div class="reserve-number">026 • 8452-2303</div>
+
+    <!-- Дата народження: -->
+    <div class="info-line">
+        <strong>Дата народження:</strong> 23.03.1984
+    </div>
+
+    <!-- Відстрочка до: -->
+    <div class="info-line">
+        <strong>Відстрочка до:</strong> завершення мобілізації
+    </div>
+
+    <!-- 026 • Документ оновлено ... -->
+    <div class="doc-line">
+        026 • Документ оновлено о 04:16 | 18.02.2026 • <a href="#" class="detail-link" id="detailBtn">Док</a>
+    </div>
+
+    <!-- Роздільник -->
+    <div class="separator"></div>
+
+    <!-- Військовозобов'язаний -->
+    <div class="status">Військовозобов'язаний</div>
+
+    <!-- ПІБ -->
+    <div class="name">ЛУКАШЕНКО ВІТАЛІЙ Миколайович</div>
+</div>
+
 <script>
-    const detailBtn = document.getElementById('detailsButton');
+    // Клік на "Док" показує деталі
+    const detailBtn = document.getElementById('detailBtn');
     if (detailBtn) {
         detailBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            alert("Докладніше:\n\nРезерв ID: 026 • 8452-2303\nДата народження: 23.03.1984\nВідстрочка до: завершення мобілізації\nДокумент оновлено: 18.02.2026 о 04:16\nСтатус: Військовозобов'язаний");
+            alert("Докладніше\n\nРезерв ID: 026 • 8452-2303\nДата народження: 23.03.1984\nВідстрочка до: завершення мобілізації\nДокумент оновлено: 18.02.2026 о 04:16");
         });
     }
 </script>

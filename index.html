@@ -3,35 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Резерв ID</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<title>Резерв ID</title>
 
 <meta name="theme-color" content="#d9d3bd">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
 <style>
-body {
+html, body {
     margin:0;
+    height:100%;
+    overflow:hidden;
     background:#d9d3bd;
     font-family:'Roboto', sans-serif;
-}
-
-/* статус бар */
-.statusbar {
-    display:flex;
-    justify-content:space-between;
-    padding:4px 10px;
-    font-size:13px;
 }
 
 /* верх */
 .topbar {
     display:flex;
-    justify-content:space-between;
-    padding:8px 14px 4px;
-    font-size:18px;
+    justify-content:flex-end;
+    padding:12px 14px;
 }
 
 .notify {
@@ -43,11 +37,16 @@ body {
 
 /* карточка */
 .card {
-    margin:8px 10px;
+    position:fixed;
+    top:60px;
+    left:10px;
+    right:10px;
+    bottom:0;
     background:#e6e0c9;
-    border-radius:20px;
+    border-radius:20px 20px 0 0;
     border:1px solid rgba(0,0,0,0.25);
-    overflow:hidden;
+    display:flex;
+    flex-direction:column;
 }
 
 /* header */
@@ -55,26 +54,23 @@ body {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:14px 14px 8px;
+    padding:14px;
     font-size:20px;
-    font-weight:500;
 }
 
 /* герб */
 .crest {
     width:22px;
     height:22px;
-    margin-top:2px;
 }
 
-/* контент */
+/* блок */
 .row {
     display:flex;
     gap:10px;
     padding:0 14px 10px;
 }
 
-/* фото */
 .photo {
     width:96px;
     height:120px;
@@ -82,7 +78,6 @@ body {
     background:#cfcfcf;
 }
 
-/* текст */
 .info {
     font-size:14px;
     line-height:1.3;
@@ -90,7 +85,6 @@ body {
 
 .info b {
     font-size:16px;
-    font-weight:700;
 }
 
 /* полоса */
@@ -105,8 +99,7 @@ body {
     display:inline-block;
     padding:6px 0;
     padding-left:100%;
-    font-size:13px;
-    animation:scroll 13s linear infinite;
+    animation:scroll 12s linear infinite;
 }
 
 @keyframes scroll {
@@ -116,28 +109,25 @@ body {
 
 /* низ */
 .name-section {
-    position:relative;
-    padding:12px 14px 16px;
+    margin-top:auto;
+    padding:12px 14px 30px;
 }
 
 .status {
     font-size:13px;
-    color:#6c6c6c;
-    margin-bottom:6px;
+    color:#666;
 }
 
 .name {
     font-size:21px;
     font-weight:700;
-    line-height:1.15;
-    letter-spacing:0.3px;
 }
 
 /* кнопка */
 .fab {
     position:absolute;
-    right:14px;
-    bottom:14px;
+    right:16px;
+    bottom:24px;
     width:54px;
     height:54px;
     background:#ff8a00;
@@ -148,30 +138,12 @@ body {
     font-size:28px;
     color:#fff;
 }
-
-/* низ меню */
-.bottom {
-    position:fixed;
-    bottom:0;
-    width:100%;
-    background:#efefef;
-    display:flex;
-    justify-content:space-around;
-    padding:10px 0 8px;
-    font-size:13px;
-}
 </style>
 </head>
 
 <body>
 
-<div class="statusbar">
-    <div>21:28</div>
-    <div>📶 📶 📶 🔋80%</div>
-</div>
-
 <div class="topbar">
-    <div></div>
     <div class="notify">Сповіщення 🔔</div>
 </div>
 
@@ -180,12 +152,9 @@ body {
     <div class="card-header">
         <div>Резерв ID</div>
 
-        <!-- герб -->
         <svg class="crest" viewBox="0 0 24 24">
           <path fill="#000" d="M12 2L5 5v6c0 4.8 3.4 9.1 7 10 3.6-0.9 7-5.2 7-10V5l-7-3z"/>
           <path fill="#fff" d="M12 6c-1.5 0-2.5 1.2-2.5 2.8V17h1.8V9.2c0-.6.3-1 .7-1s.7.4.7 1V17h1.8V8.8C14.5 7.2 13.5 6 12 6z"/>
-          <path fill="#fff" d="M9 7.5c-1.2 0-2 1-2 2.4V17h1.6V10c0-.5.2-.8.4-.8s.4.3.4.8V17H11V9.9c0-1.4-.8-2.4-2-2.4z"/>
-          <path fill="#fff" d="M15 7.5c-1.2 0-2 1-2 2.4V17h1.6V10c0-.5.2-.8.4-.8s.4.3.4.8V17H17V9.9c0-1.4-.8-2.4-2-2.4z"/>
         </svg>
     </div>
 
@@ -195,7 +164,6 @@ body {
         <div class="info">
             Дата народження:<br>
             <b>23.03.1984</b><br><br>
-
             Відстрочка до:<br>
             <b>завершення мобілізації</b>
         </div>
@@ -207,7 +175,6 @@ body {
 
     <div class="name-section">
         <div class="status">Військовозобов'язаний</div>
-
         <div class="name">
             ЛУКАШЕНКО ВІТАЛІЙ<br>
             МИКОЛАЙОВИЧ
@@ -218,12 +185,14 @@ body {
 
 </div>
 
-<div class="bottom">
-    <div>Резерв ID</div>
-    <div>Сервіси</div>
-    <div>Вакансії</div>
-    <div>Меню</div>
-</div>
+<!-- PWA без manifest -->
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
+        self.addEventListener('fetch', e => {});
+    `], {type:'text/javascript'})));
+}
+</script>
 
 </body>
 </html>

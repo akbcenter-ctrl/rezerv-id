@@ -1,219 +1,353 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Повідомлення · Резерв ID | Лукашенко Віталій</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<title>Резерв ID</title>
+        body {
+            background: linear-gradient(145deg, #d9e0ec 0%, #c2ccdb 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', Helvetica, 'Noto Sans', sans-serif;
+            padding: 20px;
+        }
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#d6d2bf">
+        /* Картка, що імітує мобільний інтерфейс повідомлення */
+        .card {
+            max-width: 480px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 36px;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
 
-<!-- убирает UI браузера -->
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        /* Хедер із "Сповіщення" + іконка */
+        .notification-header {
+            background-color: #f5f7fb;
+            padding: 20px 24px 12px 24px;
+            border-bottom: 1px solid #e9edf2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial}
+        .bell-icon {
+            background: #eef2fa;
+            width: 42px;
+            height: 42px;
+            border-radius: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.05);
+        }
 
-html,body{
-    height:100%;
-    background:#d6d2bf;
-    overflow:hidden;
-}
+        .notification-header h1 {
+            font-size: 1.85rem;
+            font-weight: 620;
+            letter-spacing: -0.3px;
+            color: #0b1c2e;
+            margin: 0;
+        }
 
-/* верх */
-.top{
-    padding:20px;
-    display:flex;
-    justify-content:space-between;
-}
+        /* основний вміст */
+        .content {
+            padding: 20px 24px 28px 24px;
+        }
 
-.time{font-size:20px;}
+        /* блок резерв id */
+        .reserve-id {
+            background-color: #f0f4fa;
+            border-radius: 28px;
+            padding: 18px 20px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f2;
+        }
 
-.notify{
-    background:#ecebe7;
-    padding:10px 16px;
-    border-radius:24px;
-}
+        .reserve-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: #3e5a7f;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-/* карточка */
-.card{
-    position:fixed;
-    top:64px;
-    left:0;
-    right:0;
-    bottom:0;
+        .reserve-label span {
+            background: #dce5f0;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+        }
 
-    background:#e6e0c9;
-    border-radius:24px 24px 0 0;
+        .id-number {
+            font-size: 1.7rem;
+            font-weight: 700;
+            font-family: 'SF Mono', 'JetBrains Mono', monospace;
+            color: #0f2b42;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            word-break: break-word;
+        }
 
-    display:flex;
-    flex-direction:column;
-}
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 12px;
+            row-gap: 12px;
+            border-top: 1px dashed #cdd9ed;
+            padding-top: 14px;
+        }
 
-/* header */
-.header{
-    padding:18px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:26px;
-}
+        .birth-block, .defer-block {
+            font-size: 0.9rem;
+        }
 
-/* герб */
-.coat{width:28px;height:28px;}
+        .birth-label, .defer-label {
+            font-weight: 500;
+            color: #4a627a;
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
 
-/* контент */
-.content{
-    display:flex;
-    gap:14px;
-    padding:0 18px;
-}
+        .birth-value, .defer-value {
+            font-weight: 600;
+            color: #1f3a57;
+            font-size: 1rem;
+        }
 
-.photo{
-    width:110px;
-    height:150px;
-    background:#bbb;
-    border-radius:14px;
-}
+        .defer-value {
+            color: #1f6e43;
+            background: #e2f3e9;
+            padding: 4px 10px;
+            border-radius: 40px;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
 
-.info{font-size:16px;}
-.info b{display:block;font-size:20px;margin:4px 0 12px;}
+        /* Секція документа */
+        .document-meta {
+            background-color: #ffffff;
+            border-radius: 22px;
+            border: 1px solid #eef2f8;
+            padding: 12px 18px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
 
-/* бегущая строка */
-.bar{
-    margin-top:16px;
-    background:#7b6a33;
-    color:#fff;
-    padding:8px 14px;
-    overflow:hidden;
-    white-space:nowrap;
-}
+        .badge-doc {
+            background: #eef3fc;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #0057a3;
+            font-family: monospace;
+        }
 
-.bar span{
-    display:inline-block;
-    padding-left:100%;
-    animation:scroll 12s linear infinite;
-}
+        .update-time {
+            font-size: 0.75rem;
+            color: #5f7d9c;
+            background: #f8fafd;
+            padding: 4px 12px;
+            border-radius: 40px;
+        }
 
-@keyframes scroll{
-    0%{transform:translateX(0)}
-    100%{transform:translateX(-100%)}
-}
+        .detail-link {
+            font-size: 0.75rem;
+            color: #2c6eaf;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
 
-/* растяжка */
-.spacer{flex:1;}
+        .detail-link:hover {
+            text-decoration: underline;
+        }
 
-/* низ */
-.bottom{
-    padding:18px 20px 34px;
-    position:relative;
-}
+        /* військовозобов'язаний блок */
+        .military-block {
+            background: #ffffff;
+            border-radius: 28px;
+            border: 1px solid #eef2f8;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
 
-.small{color:#777;font-size:14px;margin-bottom:6px;}
+        .status-badge {
+            display: inline-block;
+            background: #fef4e6;
+            color: #b45f1b;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 40px;
+            margin-bottom: 14px;
+            letter-spacing: 0.3px;
+        }
 
-.name{
-    font-size:26px;
-    font-weight:bold;
-    line-height:1.2;
-}
+        .fullname {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #0e2a3b;
+            line-height: 1.2;
+            margin-bottom: 6px;
+        }
 
-/* кнопка */
-.fab{
-    position:absolute;
-    right:24px;
-    top:50%;
-    transform:translateY(-30%);
-    width:64px;
-    height:64px;
-    background:#ff8a00;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    font-size:34px;
-}
+        .name-details {
+            font-size: 0.8rem;
+            color: #54708f;
+            border-top: 1px dashed #e2e8f0;
+            margin-top: 12px;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
 
-/* низ меню */
-.nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:#eee;
-    display:flex;
-    justify-content:space-around;
-    padding:10px 0;
-}
-</style>
+        /* футер маленький */
+        .footer-note {
+            padding: 14px 24px 20px 24px;
+            border-top: 1px solid #edf2f7;
+            background: #fbfdff;
+            font-size: 0.7rem;
+            color: #6f8aac;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .footer-note a {
+            color: #2c6eaf;
+            text-decoration: none;
+        }
+
+        /* адаптив */
+        @media (max-width: 500px) {
+            .card {
+                border-radius: 28px;
+            }
+            .fullname {
+                font-size: 1.45rem;
+            }
+            .id-number {
+                font-size: 1.3rem;
+            }
+            .content {
+                padding: 16px 18px 22px 18px;
+            }
+            .reserve-id {
+                padding: 14px 16px;
+            }
+        }
+
+        /* мікро-анімація для деталі */
+        .detail-link .arrow {
+            transition: transform 0.1s ease;
+        }
+        .detail-link:hover .arrow {
+            transform: translateX(3px);
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="top">
-    <div class="time">21:28</div>
-    <div class="notify">Сповіщення 🔔</div>
-</div>
-
 <div class="card">
-
-    <div class="header">
-        <div>Резерв ID</div>
-
-        <!-- герб -->
-        <svg class="coat" viewBox="0 0 512 512">
-            <path fill="#000" d="M256 0C167 73 64 96 64 96v128c0 121 82 233 192 288 110-55 192-167 192-288V96s-103-23-192-96z"/>
-            <path fill="#fff" d="M256 120l-60 60h40v120h40V180h40z"/>
-        </svg>
+    <!-- Шапка Сповіщення -->
+    <div class="notification-header">
+        <div class="bell-icon">🔔</div>
+        <h1>Сповіщення</h1>
     </div>
 
     <div class="content">
-        <div class="photo"></div>
+        <!-- Блок Резерв ID -->
+        <div class="reserve-id">
+            <div class="reserve-label">
+                📇 Резерв ID
+                <span>активний</span>
+            </div>
+            <div class="id-number">026 • 8452-2303</div>
+            <div class="info-row">
+                <div class="birth-block">
+                    <div class="birth-label">Дата народження</div>
+                    <div class="birth-value">23.03.1984</div>
+                </div>
+                <div class="defer-block">
+                    <div class="defer-label">Відстрочка до</div>
+                    <div class="defer-value">завершення мобілізації</div>
+                </div>
+            </div>
+        </div>
 
-        <div class="info">
-            Дата народження:
-            <b>23.03.1984</b>
+        <!-- Рядок оновлення документа + детальніше (як на скріншоті) -->
+        <div class="document-meta">
+            <div class="badge-doc">📄 026 • Документ</div>
+            <div class="update-time">оновлено о 04:16 | 18.02.2026</div>
+            <a href="#" class="detail-link" id="detailButton">
+                Докладніше <span class="arrow">→</span>
+            </a>
+        </div>
 
-            Відстрочка до:
-            <b>завершення мобілізації</b>
+        <!-- Основний блок військовозобов'язаний -->
+        <div class="military-block">
+            <div class="status-badge">⚡ Військовозобов'язаний</div>
+            <div class="fullname">ЛУКАШЕНКО ВІТАЛІЙ Миколайович</div>
+            <div class="name-details">
+                <span>РНОКПП: ●●●● ●●●● ●●</span>
+                <span>Категорія обліку: резерв+</span>
+            </div>
+        </div>
+
+        <!-- додаткова інформація, щоб відтворити атмосферу довідки -->
+        <div style="font-size: 0.7rem; background: #f9fbfe; border-radius: 20px; padding: 10px 16px; margin-top: 8px; color: #587b9c; display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between;">
+            <span>🆔 Електронний військовий квиток</span>
+            <span>🔒 Захищено Дія</span>
         </div>
     </div>
 
-    <div class="bar">
-        <span>Військовозобов'язаний • Резерв ID • Документ оновлено 18.02.2026 • </span>
+    <div class="footer-note">
+        <span>© Резерв+ · Дані з Єдиного реєстру</span>
+        <span><a href="#">Перевірити статус</a></span>
     </div>
-
-    <div class="spacer"></div>
-
-    <div class="bottom">
-        <div class="small">Військовозобов'язаний</div>
-
-        <div class="name">
-            ЛУКАШЕНКО ВІТАЛІЙ<br>
-            МИКОЛАЙОВИЧ
-        </div>
-
-        <div class="fab">+</div>
-    </div>
-
 </div>
 
-<div class="nav">
-    <div>Резерв</div>
-    <div>Сервіси</div>
-    <div>Вакансії</div>
-    <div>Меню</div>
-</div>
-
-<!-- Service Worker -->
+<!-- легкий інтерактив для кнопки "Докладніше" (не обов'язковий, але додає життя) -->
 <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
-}
+    (function() {
+        const detailBtn = document.getElementById('detailButton');
+        if(detailBtn) {
+            detailBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('📌 Детальна інформація:\n\nСтатус: Військовозобов\'язаний\nРезерв ID: 026\nДата народження: 23.03.1984\nВідстрочка: до завершення мобілізації\nОновлення: 18.02.2026 о 04:16\n\n(копія даних з оригінального повідомлення)');
+            });
+        }
+    })();
 </script>
-
 </body>
 </html>

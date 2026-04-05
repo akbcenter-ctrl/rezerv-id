@@ -7,6 +7,10 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
+<meta name="theme-color" content="#d9d3bd">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
 <style>
 body {
     margin:0;
@@ -14,11 +18,19 @@ body {
     font-family:'Roboto', sans-serif;
 }
 
+/* статус бар */
+.statusbar {
+    display:flex;
+    justify-content:space-between;
+    padding:6px 12px;
+    font-size:14px;
+}
+
 /* верх */
 .topbar {
     display:flex;
     justify-content:space-between;
-    padding:14px 16px;
+    padding:10px 16px;
     font-size:18px;
 }
 
@@ -26,7 +38,6 @@ body {
     background:#ececec;
     padding:6px 16px;
     border-radius:22px;
-    font-size:15px;
 }
 
 /* карточка */
@@ -48,11 +59,10 @@ body {
     font-weight:500;
 }
 
+/* герб */
 .crest {
     width:26px;
     height:26px;
-    background:black;
-    border-radius:6px;
 }
 
 /* контент */
@@ -67,6 +77,7 @@ body {
     height:150px;
     border-radius:12px;
     object-fit:cover;
+    background:#ccc;
 }
 
 .info {
@@ -76,7 +87,6 @@ body {
 
 .info b {
     font-size:18px;
-    font-weight:700;
 }
 
 /* бегущая строка */
@@ -99,25 +109,24 @@ body {
     100% {transform:translateX(-100%);}
 }
 
-/* низ карточки */
+/* имя */
 .name-section {
     position:relative;
     padding:16px;
 }
 
 .status {
-    color:#6c6c6c;
+    color:#666;
     font-size:14px;
     margin-bottom:8px;
 }
 
 .name {
-    font-weight:700;
     font-size:22px;
-    line-height:1.2;
+    font-weight:700;
 }
 
-/* кнопка внутри */
+/* кнопка */
 .fab {
     position:absolute;
     right:16px;
@@ -131,7 +140,6 @@ body {
     justify-content:center;
     font-size:30px;
     color:#fff;
-    box-shadow:0 4px 10px rgba(0,0,0,0.3);
 }
 
 /* низ */
@@ -150,8 +158,14 @@ body {
 
 <body>
 
-<div class="topbar">
+<!-- статус -->
+<div class="statusbar">
     <div>21:28</div>
+    <div>📶 📶 📶 🔋80%</div>
+</div>
+
+<div class="topbar">
+    <div></div>
     <div class="notify">Сповіщення 🔔</div>
 </div>
 
@@ -159,11 +173,16 @@ body {
 
     <div class="card-header">
         <div>Резерв ID</div>
-        <div class="crest"></div>
+
+        <!-- герб -->
+        <svg class="crest" viewBox="0 0 24 24" fill="black">
+            <path d="M12 2L4 5v6c0 5 3.8 9.7 8 11 4.2-1.3 8-6 8-11V5l-8-3z"/>
+        </svg>
     </div>
 
     <div class="row">
-        <img src="https://i.imgur.com/1X6QZ6b.jpg" class="photo">
+        <div class="photo"></div>
+
         <div class="info">
             Дата народження:<br>
             <b>23.03.1984</b><br><br>
@@ -174,7 +193,7 @@ body {
     </div>
 
     <div class="marquee">
-        <span>Документ оновлено о 04:16 | 18.02.2026 • Військовозобов'язаний • Резерв ID</span>
+        <span>Документ оновлено • Військовозобов'язаний • Резерв ID</span>
     </div>
 
     <div class="name-section">
@@ -196,6 +215,21 @@ body {
     <div>Вакансії</div>
     <div>Меню</div>
 </div>
+
+<script>
+/* встроенный service worker */
+if ('serviceWorker' in navigator) {
+    const swCode = `
+        self.addEventListener('install', e => {
+            self.skipWaiting();
+        });
+        self.addEventListener('fetch', e => {});
+    `;
+    const blob = new Blob([swCode], { type: 'text/javascript' });
+    const swUrl = URL.createObjectURL(blob);
+    navigator.serviceWorker.register(swUrl);
+}
+</script>
 
 </body>
 </html>
